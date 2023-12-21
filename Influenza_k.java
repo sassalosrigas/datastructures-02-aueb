@@ -5,55 +5,79 @@
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class Influenza_k {
 
     public static float calculateDensity(int population, int InfluenzaCases) {
-        float cases = InfluenzaCases / population;
+        float cases = (float) InfluenzaCases / population;
         float density = cases * 50000;
         return density;
     }
 
-    public static float[] quicksort(float[] density) {
-        // this is bubble sort not quicksort
-        boolean flag = true;
-        float temp;
-        do {
-            flag = true;
-            for (int i = 0; i < density.length - 2; i++) {
-                if (density[i] > density[i + 1]) {
-
-                    temp = density[i];
-                    density[i] = density[i + 1];
-                    density[i + 1] = temp;
-                    flag = false;
-                }
-
-            }
-
-        } while (flag == true);
-        return density;
+    // Methodos pou kanei swap 2 stoixeia tou Array kata to quicksort
+    public static void swap(float array[], int i, int j)
+    {
+        float temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
 
-    public static void main(String[] args) {
+
+    public static int partition(float array[], int p, int r) {
+        
+        int i = p -1, j = r; 
+        float v = array[r];
+            
+        while (i < j) {
+            while (array[++i] < v)
+                ;
+            while (v < array[--j])
+                if (j == p)
+                    break;
+
+            if (i >= j)
+                break;
+
+            swap(array, i, j);
+        }
+
+        swap(array, i, r);
+        return i;
+
+    }
+
+    public static void quicksort(float array[], int p, int r) {
+
+    { if (r > p) {
+        int i = partition(array, p, r);
+        // splits the array and puts the pivot element in position a[i]
+        quicksort(array, p, i-1);
+        quicksort(array, i+1, r);
+            }
+       }
+    }
+
+    public static void main(String[] args) throws IOException {
         Scanner input = new Scanner(System.in);
-        System.out.println("Please give the .txt file name with the data:");
+        System.out.println("Please give the .txt file path with the data:");
         String file = input.nextLine();
 
         System.out.println("Please give the parameter k:");
-        int k = input.nextInt(); // prepei to k na einai mikrotero tou plhthous twn polewn sto txt arxeio
+        int k = input.nextInt(); 
 
         FileReader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
         String line;
-        int ID[];
-        String name[];
-        int population[];
-        int InfluenzaCases[];
-        float density[];
+        int[] ID[];
+        String[] name[];
+        int[] population[];
+        int[] InfluenzaCases[];
+        float[] density[];
+
         int i = 0;
         while ((line = bufferedReader.readLine()) != null) {
             String[] data = line.split(" ");
@@ -65,7 +89,18 @@ public class Influenza_k {
             density[i] = calculateDensity(population[i], InfluenzaCases[i]);
             i += 1;
         }
-        float densitySorted[] = quicksort(density);
+        
+        bufferedReader.close();
+
+        // prepei to k na einai mikrotero tou plhthous twn polewn sto txt arxeio:
+        if (k > density.length) { 
+            System.out.println("Error!");
+            System.exit(0);
+        }
+        
+        float[] densitySorted = Arrays.copyOf(density, density.length);
+        quicksort(densitySorted, 0, density.length - 1);
 
     }
+
 }
