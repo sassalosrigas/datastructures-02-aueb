@@ -23,12 +23,12 @@ public class Influenza_k {
         
         int i = p -1;
         int j = r; 
-        float v = cities[r].calculateDensity();
+        City v = cities[r];
             
         while (i < j) {
-            while (cities[++i].calculateDensity() < v)
+            while (cities[++i].compareTo(v) < 0)
                 ;
-            while (v < cities[--j].calculateDensity())
+            while (v.compareTo(cities[--j]) < 0)
                 if (j == p)
                     break;
 
@@ -97,7 +97,7 @@ public class Influenza_k {
 
         System.out.println("The top " + k + " cities are:");
         for (int i = 0; i < k; i++) {
-            System.out.println(cities[i].getName() + " " + cities[i].calculateDensity());
+            System.out.println(cities[i].getName() + " " + cities[i].calculateDensity() + " " + cities[i].getID());
         }
 
     }

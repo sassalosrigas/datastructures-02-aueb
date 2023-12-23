@@ -60,12 +60,17 @@ public class City implements CityInterface, Comparable<City> {
     }
 
     public int compareTo(City city) {
-        if (this.InfluenzaCases < city.InfluenzaCases) {
-            return -1;
-        } else if (this.InfluenzaCases > city.InfluenzaCases) {
-            return 1;
+        int densityCompare = Float.compare(this.calculateDensity(), city.calculateDensity());
+
+        if (densityCompare != 0) {
+            return densityCompare;
         } else {
-            return 0;
+            int nameCompare = this.name.compareTo(city.name);
+            if (nameCompare != 0) {
+                return nameCompare;
+            } else {
+                return Integer.compare(this.ID, city.ID);
+            }
         }
     }
 }
