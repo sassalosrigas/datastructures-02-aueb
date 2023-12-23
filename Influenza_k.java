@@ -97,7 +97,7 @@ public class Influenza_k {
 
         System.out.println("The top " + k + " cities are:");
         for (int i = 0; i < k; i++) {
-            System.out.println(cities[i].getName() + " " + cities[i].calculateDensity() + " " + cities[i].getID());
+            System.out.println(cities[i].getName());
         }
 
     }
