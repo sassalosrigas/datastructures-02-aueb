@@ -3,7 +3,7 @@
  *          Evgenia Lazana (3220104)
  */
 
-public class City implements CityInterface {
+public class City implements CityInterface, Comparable<City> {
 
     private int ID;
     private String name;
@@ -47,5 +47,25 @@ public class City implements CityInterface {
 
     public void setInfluenzaCases(int InfluenzaCases) {
         this.InfluenzaCases = InfluenzaCases;
+    }
+
+    public float calculateDensity() {
+        float cases = (float) InfluenzaCases / population;
+        float density = cases * 50000;
+
+        String formattedDensity = String.format("%.2f", density).replace(",", ".");
+        density = Float.parseFloat(formattedDensity);
+
+        return density;
+    }
+
+    public int compareTo(City city) {
+        if (this.InfluenzaCases < city.InfluenzaCases) {
+            return -1;
+        } else if (this.InfluenzaCases > city.InfluenzaCases) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }

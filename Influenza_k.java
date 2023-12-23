@@ -6,100 +6,99 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class Influenza_k {
 
-    public static float calculateDensity(int population, int InfluenzaCases) {
-        float cases = (float) InfluenzaCases / population;
-        float density = cases * 50000;
-        return density;
-    }
-
     // Methodos pou kanei swap 2 stoixeia tou Array kata to quicksort
-    public static void swap(float array[], int i, int j)
-    {
-        float temp = array[i];
+    public static void swap(City array[], int i, int j) {
+        City temp = array[i];
         array[i] = array[j];
         array[j] = temp;
     }
 
 
-    public static int partition(float array[], int p, int r) {
+    public static int partition(City cities[], int p, int r) {
         
-        int i = p -1, j = r; 
-        float v = array[r];
+        int i = p -1;
+        int j = r; 
+        float v = cities[r].calculateDensity();
             
         while (i < j) {
-            while (array[++i] < v)
+            while (cities[++i].calculateDensity() < v)
                 ;
-            while (v < array[--j])
+            while (v < cities[--j].calculateDensity())
                 if (j == p)
                     break;
 
             if (i >= j)
                 break;
 
-            swap(array, i, j);
+            swap(cities, i, j);
         }
 
-        swap(array, i, r);
+        swap(cities, i, r);
         return i;
 
     }
 
-    public static void quicksort(float array[], int p, int r) {
-
-    { if (r > p) {
-        int i = partition(array, p, r);
-        // splits the array and puts the pivot element in position a[i]
-        quicksort(array, p, i-1);
-        quicksort(array, i+1, r);
-            }
-       }
+    public static void quicksort(City cities[], int p, int r) {
+        if (r > p) {
+            int i = partition(cities, p, r);
+            // splits the array and puts the pivot element in position a[i]
+            quicksort(cities, p, i-1);
+            quicksort(cities, i+1, r);
+        }
     }
 
     public static void main(String[] args) throws IOException {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Please give the .txt file path with the data:");
-        String file = input.nextLine();
+        if (args.length != 2) {
+            System.out.println("Usage: java Influenza_k <k> <file>");
+            System.exit(1);
+        } 
 
-        System.out.println("Please give the parameter k:");
-        int k = input.nextInt(); 
+        int k = Integer.parseInt(args[0]);
+        String file = args[1];
 
         FileReader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
         String line;
-        int[] ID[];
-        String[] name[];
-        int[] population[];
-        int[] InfluenzaCases[];
-        float[] density[];
+        ArrayList<Integer> ID = new ArrayList<>();
+        ArrayList<String> name = new ArrayList<>();
+        ArrayList<Integer> population = new ArrayList<>();
+        ArrayList<Integer> influenzaCases = new ArrayList<>(); 
 
-        int i = 0;
         while ((line = bufferedReader.readLine()) != null) {
             String[] data = line.split(" ");
-            ID[i] = Integer.parseInt(data[0]);
-            name[i] = String.join(" ", Arrays.copyOfRange(data, 1, data.length - 2));
-            population[i] = Integer.parseInt(data[2]);
-            InfluenzaCases[i] = Integer.parseInt(data[3]);
-            City city = new City(ID[i], name[i], population[i], InfluenzaCases[i]);
-            density[i] = calculateDensity(population[i], InfluenzaCases[i]);
-            i += 1;
+            ID.add(Integer.parseInt(data[0]));
+            name.add(String.join(" ", Arrays.copyOfRange(data, 1, data.length - 2)));
+            population.add(Integer.parseInt(data[2]));
+            influenzaCases.add(Integer.parseInt(data[3]));
         }
         
         bufferedReader.close();
 
-        // prepei to k na einai mikrotero tou plhthous twn polewn sto txt arxeio:
-        if (k > density.length) { 
+        City[] cities = new City[ID.size()];
+
+        for (int j = 0; j < ID.size(); j++) {
+            cities[j] = new City(ID.get(j), name.get(j), population.get(j), influenzaCases.get(j)); 
+        }
+ 
+
+        // ensures that k is not greater than the number of cities
+        if (k > cities.length) { 
             System.out.println("Error!");
             System.exit(0);
         }
         
-        float[] densitySorted = Arrays.copyOf(density, density.length);
-        quicksort(densitySorted, 0, density.length - 1);
+        quicksort(cities, 0, cities.length - 1); // sorts the array
+
+        System.out.println("The top " + k + " cities are:");
+        for (int i = 0; i < k; i++) {
+            System.out.println(cities[i].getName() + " " + cities[i].calculateDensity());
+        }
 
     }
 
