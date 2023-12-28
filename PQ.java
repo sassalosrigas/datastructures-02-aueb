@@ -3,13 +3,18 @@
  *          Evgenia Lazana (3220104)
  */
 
+import java.util.Arrays;
+
 public class PQ {
     private City[] array;
     private int size;
+    private int[] position;
 
     public PQ(int capacity) {
         array = new City[capacity];
         size = 0;
+        position = new int[capacity];
+        Arrays.fill(position, -1);
     }
 
     boolean isEmpty() {
@@ -30,6 +35,7 @@ public class PQ {
             resize();
         }
         array[size] = x;
+        position[x.getID()] = size;
         size++;   
 
         swim(size()-1);     
@@ -62,24 +68,19 @@ public class PQ {
         if(isEmpty()) {
             throw new IllegalStateException("Priority queue is empty");
         } else {
-            int index = -1;
-            for(int i = 0; i < size(); i++) {
-                if(array[i].getID() == ID) {
-                    index = i;
-                    break;
-                }
-            }
+            int index = position[ID];
             if(index == -1) {
                 throw new IllegalStateException("City not found");
             } else {
                 swap(index, size()-1);
                 array[size()-1] = null;
+                position[ID] = -1;
                 size--;
                 sink(index);
             }
         }
     }
-
+    
     private void swim(int index) {
         while (index > 0) {
             int parentIndex = (index - 1) / 2;
