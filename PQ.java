@@ -34,12 +34,12 @@ public class PQ {
         if((double)size() >= array.length * 0.75) {
             resize();
         }
-        size = size();
         array[size] = x;
         position[x.getID()] = size;
-        size++;   
+        swim(size);
+        size++;
 
-        swim(size()-1);     
+        System.out.println("After inserting " + x.getName() + ": " + Arrays.toString(array));
     }
 
     void resize() {
@@ -66,12 +66,13 @@ public class PQ {
             throw new IllegalStateException("Priority queue is empty"); 
         } else {
             City min = array[0];
-            swap(0, size()-1);
-            array[size()-1] = null;
+            swap(0, size-1);
             position[min.getID()] = -1;
+            array[size-1] = null;
             size--;
-            sink(0);
-
+            if(!isEmpty()) {
+                sink(0);
+            }
             return min;
         }
     }    
@@ -91,6 +92,7 @@ public class PQ {
                 sink(index);
             }
         }
+        System.out.println("After removing " + Arrays.toString(array));
     }
     
     private void swim(int index) {
@@ -98,7 +100,7 @@ public class PQ {
             int parentIndex = (index - 1) / 2;
             if (array[index].compareTo(array[parentIndex]) < 0) {
                 swap(index, parentIndex);
-                break;
+                index = parentIndex;
             } else {
                 break;
             }
@@ -111,11 +113,11 @@ public class PQ {
             int rightChildIndex = 2 * index + 2;
             int smallestIndex = index;
 
-            if (leftChildIndex < size() && array[leftChildIndex].compareTo(array[smallestIndex]) < 0) {
+            if (leftChildIndex < size && array[leftChildIndex].compareTo(array[smallestIndex]) < 0) {
                 smallestIndex = leftChildIndex;
             }
 
-            if (rightChildIndex < size() && array[rightChildIndex].compareTo(array[smallestIndex]) < 0) {
+            if (rightChildIndex < size && array[rightChildIndex].compareTo(array[smallestIndex]) < 0) {
                 smallestIndex = rightChildIndex;
             }
 

@@ -50,10 +50,17 @@ public class DynamicInfluenza_k_withPQ {
 
             City city = new City(id, name, population, influenzaCases);
             City min = pq.min();
-            if (city.compareTo(min) == -1) {
-                pq.remove(min.getID());
-                pq.insert(city);
+
+            System.out.println("Comparing " + city.getName() + " with " + min.getName() + 
+                       ": " + city.compareTo(min));
+            
+            if (city.compareTo(min) < 0) { // If the city has a smaller density than the minimum
+
+                System.out.println("Removing " + min.getName() + " and inserting " + city.getName());
+                pq.getmin(); // Remove the minimum
+                pq.insert(city); // Insert the new city
             }
+
         }
 
         br.close();
@@ -61,7 +68,7 @@ public class DynamicInfluenza_k_withPQ {
         // Print the k cities in the priority queue
         // Print the top k cities
         System.out.println("The top " + k + " cities are:");
-        for (int i = 0; i < k && !pq.isEmpty(); i++) {
+        for (int i = 0; i < k; i++) {
             City c = pq.getmin();
             System.out.println(c.getName());
         }
