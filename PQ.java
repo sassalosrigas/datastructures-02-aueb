@@ -17,7 +17,7 @@ public class PQ {
         Arrays.fill(position, -1);
     }
 
-    boolean isEmpty() {
+    boolean isEmpty() { // checks if the priority queue is empty
         if(size() == 0) {
             return true;
         }
@@ -26,11 +26,11 @@ public class PQ {
         }
     }
 
-    int size() {
+    int size() { // returns the size of the priority queue
         return size;
     }
 
-    void insert(City x) {
+    void insert(City x) { // inserts a city in the priority queue
         if((double)size() >= array.length * 0.75) {
             resize();
         }
@@ -40,7 +40,7 @@ public class PQ {
         size++;
     }
 
-    void resize() {
+    void resize() { // resizes the array
         size = size();
         City[] newArray = new City[2*array.length];
         for(int i = 0; i < size; i++) {
@@ -50,7 +50,7 @@ public class PQ {
         array = newArray;
     }
 
-    City min() {
+    City min() { // returns the city with the minimum density
         if(isEmpty()) {
             throw new IllegalStateException("Priority queue is empty");
         } else {
@@ -59,7 +59,7 @@ public class PQ {
 
     }
 
-    City getmin() {
+    City getmin() { // returns the city with the minimum density and removes it from the priority queue
         if(isEmpty()) {
             throw new IllegalStateException("Priority queue is empty"); 
         } else {
@@ -75,7 +75,7 @@ public class PQ {
         }
     }   
     
-    City findMaxCity(PQ pq) {
+    City findMaxCity(PQ pq) { // returns the city with the maximum density
         City maxCity = array[0];
         for(int i = 1; i < size; i++) {
             if(array[i].calculateDensity() > maxCity.calculateDensity()) {
@@ -85,7 +85,7 @@ public class PQ {
         return maxCity;
     }
 
-    void remove(int ID) {
+    void remove(int ID) { // removes a city from the priority queue
         if(isEmpty()) {
             throw new IllegalStateException("Priority queue is empty");
         } else {
@@ -102,7 +102,7 @@ public class PQ {
         }
     }
     
-    private void swim(int index) {
+    private void swim(int index) { // moves the city up in the priority queue
         while (index > 0) {
             int parentIndex = (index - 1) / 2;
             if (array[index].compareTo(array[parentIndex]) < 0) {
@@ -114,7 +114,7 @@ public class PQ {
         }
     }
 
-    private void sink(int index) {
+    private void sink(int index) { // moves the city down in the priority queue
         while (true) {
             int leftChildIndex = 2 * index + 1;
             int rightChildIndex = 2 * index + 2;
@@ -137,7 +137,7 @@ public class PQ {
         }
     }
 
-    private void swap(int i, int j) {
+    private void swap(int i, int j) { // swaps two cities
         City temp = array[i];
         array[i] = array[j];
         array[j] = temp;

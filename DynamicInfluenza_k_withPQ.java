@@ -21,7 +21,7 @@ public class DynamicInfluenza_k_withPQ {
         FileReader fr = new FileReader(file);
         BufferedReader br = new BufferedReader(fr);
 
-        // Create a priority queue and insert the first k cities
+        // creates a priority queue and insert the first k cities
         PQ pq = new PQ(k);
         for (int i = 0; i < k; i++) {
             String line = br.readLine();
@@ -57,7 +57,6 @@ public class DynamicInfluenza_k_withPQ {
 
         br.close();
         
-        // Print the k cities in the priority queue
         // Print the top k cities
         System.out.println("The top " + k + " cities are:");
         for (int i = 0; i < k; i++) {

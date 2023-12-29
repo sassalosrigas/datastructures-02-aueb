@@ -11,15 +11,14 @@ import java.util.Arrays;
 
 public class Influenza_k {
 
-    // Methodos pou kanei swap 2 stoixeia tou Array kata to quicksort
-    public static void swap(City array[], int i, int j) {
+    public static void swap(City array[], int i, int j) { // swaps two elements of an array
         City temp = array[i];
         array[i] = array[j];
         array[j] = temp;
     }
 
 
-    public static int partition(City cities[], int p, int r) {
+    public static int partition(City cities[], int p, int r) { // partitions the array
         
         int i = p -1;
         int j = r; 
@@ -43,7 +42,7 @@ public class Influenza_k {
 
     }
 
-    public static void quicksort(City cities[], int p, int r) {
+    public static void quicksort(City cities[], int p, int r) { // sorts the array
         if (r > p) {
             int i = partition(cities, p, r);
             // splits the array and puts the pivot element in position a[i]

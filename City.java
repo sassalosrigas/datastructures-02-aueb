@@ -10,7 +10,7 @@ public class City implements CityInterface, Comparable<City> {
     private int population;
     private int InfluenzaCases;
 
-    public City(int ID, String name, int population, int InfluenzaCases) {
+    public City(int ID, String name, int population, int InfluenzaCases) { // Constructor
         this.ID = ID;
         this.name = name;
         this.population = population;
@@ -49,7 +49,7 @@ public class City implements CityInterface, Comparable<City> {
         this.InfluenzaCases = InfluenzaCases;
     }
 
-    public float calculateDensity() {
+    public float calculateDensity() { // Calculates the density of the city
         float cases = (float) InfluenzaCases / population;
         float density = cases * 50000;
 
@@ -59,7 +59,7 @@ public class City implements CityInterface, Comparable<City> {
         return density;
     }
 
-    public int compareTo(City city) {
+    public int compareTo(City city) { // Compares the density of two cities
         int densityCompare = Float.compare(this.calculateDensity(), city.calculateDensity());
 
         if (densityCompare != 0) {
