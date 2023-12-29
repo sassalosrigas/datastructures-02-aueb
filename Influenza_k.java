@@ -73,7 +73,7 @@ public class Influenza_k {
         while ((line = bufferedReader.readLine()) != null) {
             String[] data = line.split(" ");
             ID.add(Integer.parseInt(data[0]));
-            name.add(String.join(" ", Arrays.copyOfRange(data, 1, data.length - 2)));
+            name.add(String.join(" ", Arrays.copyOfRange(data, 1, (data.length - 2))));
             population.add(Integer.parseInt(data[2]));
             influenzaCases.add(Integer.parseInt(data[3]));
         }

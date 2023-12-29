@@ -56,10 +56,15 @@ public class DynamicInfluenza_k_withPQ {
             }
         }
 
+        br.close();
+        
         // Print the k cities in the priority queue
+        // Print the top k cities
         System.out.println("The top " + k + " cities are:");
-        while (!pq.isEmpty()) {
-            pq.getmin();
+        for (int i = 0; i < k && !pq.isEmpty(); i++) {
+            City c = pq.getmin();
+            System.out.println(c.getName());
         }
+
     }
 }

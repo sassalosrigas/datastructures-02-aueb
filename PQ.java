@@ -13,7 +13,7 @@ public class PQ {
     public PQ(int capacity) {
         array = new City[capacity];
         size = 0;
-        position = new int[capacity];
+        position = new int[1000000];
         Arrays.fill(position, -1);
     }
 
@@ -31,9 +31,10 @@ public class PQ {
     }
 
     void insert(City x) {
-        if((double)size() == array.length * 0.75) {
+        if((double)size() >= array.length * 0.75) {
             resize();
         }
+        size = size();
         array[size] = x;
         position[x.getID()] = size;
         size++;   
@@ -42,9 +43,11 @@ public class PQ {
     }
 
     void resize() {
+        size = size();
         City[] newArray = new City[2*array.length];
-        for(int i = 0; i < size(); i++) {
+        for(int i = 0; i < size; i++) {
             newArray[i] = array[i];
+            position[newArray[i].getID()] = i;
         }
         array = newArray;
     }
@@ -59,10 +62,19 @@ public class PQ {
     }
 
     City getmin() {
-        City minCity = min();
-        remove(minCity.getID());
-        return minCity;
-    }
+        if(isEmpty()) {
+            throw new IllegalStateException("Priority queue is empty"); 
+        } else {
+            City min = array[0];
+            swap(0, size()-1);
+            array[size()-1] = null;
+            position[min.getID()] = -1;
+            size--;
+            sink(0);
+
+            return min;
+        }
+    }    
 
     void remove(int ID) {
         if(isEmpty()) {
