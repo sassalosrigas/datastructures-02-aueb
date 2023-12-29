@@ -70,11 +70,11 @@ public class Influenza_k {
         ArrayList<Integer> influenzaCases = new ArrayList<>(); 
 
         while ((line = bufferedReader.readLine()) != null) {
-            String[] data = line.split(" ");
+            String[] data = line.trim().split("\\s+");
             ID.add(Integer.parseInt(data[0]));
-            name.add(String.join(" ", Arrays.copyOfRange(data, 1, (data.length - 2))));
-            population.add(Integer.parseInt(data[2]));
-            influenzaCases.add(Integer.parseInt(data[3]));
+            name.add(String.join(" ", Arrays.copyOfRange(data, 1, data.length - 2)));
+            population.add(Integer.parseInt(data[data.length-2]));
+            influenzaCases.add(Integer.parseInt(data[data.length-1]));
         }
         
         bufferedReader.close();
