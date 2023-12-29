@@ -26,39 +26,31 @@ public class DynamicInfluenza_k_withPQ {
         for (int i = 0; i < k; i++) {
             String line = br.readLine();
 
-            String[] data = line.split(" ");
+            String[] data = line.trim().split("\\s+");
             int id = Integer.parseInt(data[0]);
             String name = String.join(" ", Arrays.copyOfRange(data, 1, data.length - 2));
-            int population = Integer.parseInt(data[2]);
-            int influenzaCases = Integer.parseInt(data[3]);
+            int population = Integer.parseInt(data[data.length-2]);
+            int influenzaCases = Integer.parseInt(data[data.length-1]);
 
             City city = new City(id, name, population, influenzaCases);
             pq.insert(city);
         }
 
-        // For each remaining city, compare it with the minimum city in the
-        // priority queue. If it is closer to the query point, remove the
-        // minimum city and insert the new city.
         String line;
         while ((line = br.readLine()) != null) {
 
-            String[] data = line.split(" ");
+            String[] data = line.trim().split("\\s+");
             int id = Integer.parseInt(data[0]);
             String name = String.join(" ", Arrays.copyOfRange(data, 1, data.length - 2));
-            int population = Integer.parseInt(data[2]);
-            int influenzaCases = Integer.parseInt(data[3]);
+            int population = Integer.parseInt(data[data.length-2]);
+            int influenzaCases = Integer.parseInt(data[data.length-1]);
 
             City city = new City(id, name, population, influenzaCases);
-            City min = pq.min();
+            City maxCity = pq.findMaxCity(pq);
 
-            System.out.println("Comparing " + city.getName() + " with " + min.getName() + 
-                       ": " + city.compareTo(min));
-            
-            if (city.compareTo(min) < 0) { // If the city has a smaller density than the minimum
-
-                System.out.println("Removing " + min.getName() + " and inserting " + city.getName());
-                pq.getmin(); // Remove the minimum
-                pq.insert(city); // Insert the new city
+            if (maxCity.calculateDensity() > city.calculateDensity()) {
+                pq.remove(maxCity.getID());
+                pq.insert(city);
             }
 
         }

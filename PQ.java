@@ -38,8 +38,6 @@ public class PQ {
         position[x.getID()] = size;
         swim(size);
         size++;
-
-        System.out.println("After inserting " + x.getName() + ": " + Arrays.toString(array));
     }
 
     void resize() {
@@ -75,7 +73,17 @@ public class PQ {
             }
             return min;
         }
-    }    
+    }   
+    
+    City findMaxCity(PQ pq) {
+        City maxCity = array[0];
+        for(int i = 1; i < size; i++) {
+            if(array[i].calculateDensity() > maxCity.calculateDensity()) {
+                maxCity = array[i];
+            }
+        }
+        return maxCity;
+    }
 
     void remove(int ID) {
         if(isEmpty()) {
@@ -92,7 +100,6 @@ public class PQ {
                 sink(index);
             }
         }
-        System.out.println("After removing " + Arrays.toString(array));
     }
     
     private void swim(int index) {
